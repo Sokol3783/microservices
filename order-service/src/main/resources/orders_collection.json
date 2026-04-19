@@ -1,0 +1,213 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+    "name": "Order Management Scenario",
+    "description": "Тестирование сценария: получение всех, создание двух, удаление одного, проверка удаления, обновление и получение по ID.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Get All Orders (Initial)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": ["{{baseUrl}}"]
+        }
+      }
+    },
+    {
+      "name": "2. Create Order 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "pm.collectionVariables.set(\"orderId1\", jsonData.id);",
+              "pm.test(\"Order 1 created\", () => pm.response.to.have.status(201));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer\": {\n    \"name\": \"Micle Jakson\",\n    \"email\": \"jacson@example.com\",\n    \"address\": \"New York, Broadway avenue 3\"\n  },\n  \"amount\": 5000,\n  \"items\": [\n    { \"productName\": \"Laptop\", \"price\": 5000, \"amount\": 5000, \"quantity\": 1 }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": ["{{baseUrl}}"]
+        }
+      }
+    },
+    {
+      "name": "3. Create Order 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "pm.collectionVariables.set(\"orderId2\", jsonData.id);",
+              "pm.test(\"Order 2 created\", () => pm.response.to.have.status( 201));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer\": {\n    \"name\": \"Chak Noris\",\n    \"email\": \"ChakNoris@example.com\",\n    \"address\": \"Los Angeles, Empty district 10\"\n  },\n  \"amount\": 1000,\n  \"items\": [\n    { \"productName\": \"Mouse\", \"price\": 500, \"amount\": 1000, \"quantity\": 2 }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": ["{{baseUrl}}"]
+        }
+      }
+    },
+    {
+      "name": "4. Get All Orders (Verify)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"List contains both new orders\", function () {",
+              "    const ids = pm.response.json().map(o => o.id);",
+              "    pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"orderId1\")));",
+              "    pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"orderId2\")));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": ["{{baseUrl}}"]
+        }
+      }
+    },
+    {
+      "name": "5. Delete Order 1",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/{{orderId1}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["{{orderId1}}"]
+        }
+      }
+    },
+    {
+      "name": "6. Try Get Order 1 (Should Fail)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 404 Not Found\", () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([404, 204]);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/{{orderId1}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["{{orderId1}}"]
+        }
+      }
+    },
+    {
+      "name": "7. Update Order 2",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer\": {\n    \"name\": \"Chak Noris\",\n    \"email\": \"ChakNoris@example.com\",\n    \"address\": \"Los Angeles, Empty district 10\"\n  },\n  \"amount\": 1500,\n  \"items\": [\n    { \"productName\": \"Mouse\", \"price\": 500, \"amount\": 1500, \"quantity\": 3 }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{orderId2}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["{{orderId2}}"]
+        }
+      }
+    },
+    {
+      "name": "8. Get Order 2 by ID (Final Check)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verify updated data\", function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.amount).to.eql(1500);",
+              "    pm.expect(data.customer.email).to.eql(\"petr_new@example.com\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/{{orderId2}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["{{orderId2}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081/api/orders",
+      "type": "string"
+    },
+    {
+      "key": "orderId1",
+      "value": ""
+    },
+    {
+      "key": "orderId2",
+      "value": ""
+    }
+  ]
+}
