@@ -32,7 +32,7 @@ public class PaymentService {
   private Payment mapToPayment(PaymentDTO paymentDTO) {
     return Payment.builder().customer(paymentDTO.customer())
         .amount(paymentDTO.amount())
-        .orderNumber(paymentDTO.orderId())
+        .orderNumber(paymentDTO.orderNumber())
         .status(PaymentStatus.PENDING)
         .createdAT(Instant.now())
         .build();

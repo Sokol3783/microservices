@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "US Payments & Customers Scenario",
+    "description": "Port 8082. Сценарий с американскими данными (USD, US Addresses) и вложенным Customer.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. POST: Create Payment (US Customer - John)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"amount\": 1200.50,\n    \"currency\": \"USD\",\n    \"orderId\": 5001,\n    \"customer\": {\n        \"name\": \"John Doe\",\n        \"email\": \"j.doe@gmail.com\",\n        \"address\": \"1600 Amphitheatre Parkway, Mountain View, CA 94043\"\n    },\n    \"items\": [\n        { \"name\": \"iPhone 15 Pro\", \"price\": 1100.00 },\n        { \"name\": \"MagSafe Case\", \"price\": 100.50 }\n    ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/payments",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "payments"]
+        }
+      }
+    },
+    {
+      "name": "2. POST: Create Payment (US Customer - Alice)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"amount\": 85.00,\n    \"currency\": \"USD\",\n    \"orderId\": 5002,\n    \"customer\": {\n        \"name\": \"Alice Smith\",\n        \"email\": \"alice.s@outlook.com\",\n        \"address\": \"742 Evergreen Terrace, Springfield, IL 62704\"\n    },\n    \"items\": [\n        { \"name\": \"Starbucks Coffee Pack\", \"price\": 45.00 },\n        { \"name\": \"Office Mug\", \"price\": 40.00 }\n    ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/payments",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "payments"]
+        }
+      }
+    },
+    {
+      "name": "3. GET: List All Payments",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/payments",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "payments"]
+        }
+      }
+    },
+    {
+      "name": "4. DELETE: Remove John's Payment",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/payments/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "payments", "1"]
+        }
+      }
+    },
+    {
+      "name": "5. GET: Final Verify",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/payments",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "payments"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8082",
+      "type": "string"
+    }
+  ]
+}
