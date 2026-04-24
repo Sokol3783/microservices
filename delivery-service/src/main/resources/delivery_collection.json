@@ -1,0 +1,106 @@
+{
+	"info": {
+		"name": "Delivery Service - NotNull Customer Scenario",
+		"description": "Сценарий для DeliveryDTO с @NotNull Customer. Port 8083. Проверка логики Optional в Record.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. POST: Delivery (Fallback to Customer Address)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderNumber\": 99001,\n    \"customer\": {\n        \"name\": \"John Doe\",\n        \"email\": \"j.doe@gmail.com\",\n        \"address\": \"1600 Amphitheatre Parkway, Mountain View, CA 94043\"\n    },\n    \"address\": null\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/deliveries",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "deliveries"]
+				},
+				"description": "Customer заполнен (проходит @NotNull). Address = null, должен подставиться из Customer."
+			}
+		},
+		{
+			"name": "2. POST: Delivery (Custom Address)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderNumber\": 99002,\n    \"customer\": {\n        \"name\": \"Alice Smith\",\n        \"email\": \"alice.s@outlook.com\",\n        \"address\": \"742 Evergreen Terrace, Springfield, IL 62704\"\n    },\n    \"address\": \"PO BOX 456, Springfield, IL 62708\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/deliveries",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "deliveries"]
+				},
+				"description": "Явный адрес доставки."
+			}
+		},
+		{
+			"name": "3. GET: All Deliveries",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/deliveries",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "deliveries"]
+				}
+			}
+		},
+		{
+			"name": "4. DELETE: Remove Delivery #1",
+			"request": {
+				"method": "DELETE",
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/deliveries/1",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "deliveries", "1"]
+				}
+			}
+		},
+		{
+			"name": "5. GET: Verify Remaining",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/deliveries",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "deliveries"]
+				}
+			}
+		},
+		{
+			"name": "6. VALIDATION: Missing Customer (Expect 400)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderNumber\": 99003,\n    \"customer\": null,\n    \"address\": \"Some Address\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/deliveries",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "v1", "deliveries"]
+				},
+				"description": "Тест @NotNull. Если в контроллере стоит @Valid, вернется 400 Bad Request."
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8083",
+			"type": "string"
+		}
+	]
+}
