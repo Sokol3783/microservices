@@ -1,4 +1,4 @@
-package com.example.service1.order_serivce.dto;
+package com.example.service1.order_service.dto;
 
 import java.util.List;
 

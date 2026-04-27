@@ -1,10 +1,10 @@
-package com.example.service1.order_serivce.controller;
+package com.example.service1.order_service.controller;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
-import com.example.service1.order_serivce.dto.OrderDTO;
-import com.example.service1.order_serivce.entity.Order;
-import com.example.service1.order_serivce.service.OrderService;
+import com.example.service1.order_service.dto.OrderDTO;
+import com.example.service1.order_service.entity.Order;
+import com.example.service1.order_service.service.OrderService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import java.util.List;

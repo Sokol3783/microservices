@@ -1,6 +1,6 @@
-package com.example.service1.order_serivce.dao;
+package com.example.service1.order_service.dao;
 
-import com.example.service1.order_serivce.entity.Order;
+import com.example.service1.order_service.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
-package com.example.service1.order_serivce.controller;
+package com.example.service1.order_service.controller;
 
-import com.example.service1.order_serivce.dto.ErrorResponseDTO;
-import com.example.service1.order_serivce.dto.ErrorResponseDTO.ErrorField;
+import com.example.service1.order_service.dto.ErrorResponseDTO;
+import com.example.service1.order_service.dto.ErrorResponseDTO.ErrorField;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;

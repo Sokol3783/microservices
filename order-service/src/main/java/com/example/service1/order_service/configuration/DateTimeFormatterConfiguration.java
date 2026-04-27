@@ -1,4 +1,4 @@
-package com.example.service1.order_serivce.configuration;
+package com.example.service1.order_service.configuration;
 
 import java.time.format.DateTimeFormatter;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.example.service1.order_serivce.valueobjects;
+package com.example.service1.order_service.valueobjects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

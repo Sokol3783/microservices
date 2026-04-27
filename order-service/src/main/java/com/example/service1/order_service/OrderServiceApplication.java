@@ -1,4 +1,4 @@
-package com.example.service1.order_serivce;
+package com.example.service1.order_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

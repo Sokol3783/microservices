@@ -1,4 +1,4 @@
-package com.example.service1.order_serivce.entity;
+package com.example.service1.order_service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

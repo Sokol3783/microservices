@@ -1,6 +1,6 @@
-package com.example.service1.order_serivce.entity;
+package com.example.service1.order_service.entity;
 
-import com.example.service1.order_serivce.valueobjects.Customer;
+import com.example.service1.order_service.valueobjects.Customer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

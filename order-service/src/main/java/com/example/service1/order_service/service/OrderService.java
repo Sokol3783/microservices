@@ -1,10 +1,10 @@
-package com.example.service1.order_serivce.service;
+package com.example.service1.order_service.service;
 
-import com.example.service1.order_serivce.dao.OrderRepository;
-import com.example.service1.order_serivce.dto.OrderDTO;
-import com.example.service1.order_serivce.dto.OrderDTO.OrderItemDTO;
-import com.example.service1.order_serivce.entity.Order;
-import com.example.service1.order_serivce.entity.OrderItem;
+import com.example.service1.order_service.dao.OrderRepository;
+import com.example.service1.order_service.dto.OrderDTO;
+import com.example.service1.order_service.dto.OrderDTO.OrderItemDTO;
+import com.example.service1.order_service.entity.Order;
+import com.example.service1.order_service.entity.OrderItem;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
