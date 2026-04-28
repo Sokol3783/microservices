@@ -23,3 +23,12 @@ datasource:
     properties:
       hibernate:
         format_sql: true
+  springdoc:
+    # Путь для получения JSON/YAML спецификации OpenAPI
+    api-docs:
+      path: /api-docs
+      enabled: true
+    # Настройки Swagger UI, если вы его используете
+    swagger-ui:
+      path: /swagger-ui.html
+      enabled: true
