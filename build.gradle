@@ -1,0 +1,5 @@
+tasks.register('runAll') {
+    dependsOn ':delivery-service:bootRun',
+            ':order-service:bootRun',
+            ':payment-service:bootRun'
+}

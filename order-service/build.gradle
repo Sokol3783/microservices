@@ -13,6 +13,10 @@ java {
 	}
 }
 
+ext {
+	set('springCloudVersion', "2025.1.0")
+}
+
 repositories {
 	mavenCentral()
 }
@@ -24,6 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'org.springframework.boot:spring-boot-starter-webservices'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -37,4 +42,10 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
