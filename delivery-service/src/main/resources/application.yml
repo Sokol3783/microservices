@@ -1,0 +1,35 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: delivery-service
+  datasource:
+    url: jdbc:h2:mem:Delivery;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    generate-unique-name: false
+    username: sa
+    password:
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+        settings:
+          trace: false
+          web-allow-others: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  springdoc:
+    # Путь для получения JSON/YAML спецификации OpenAPI
+    api-docs:
+      path: /api-docs
+      enabled: true
+    # Настройки Swagger UI, если вы его используете
+    swagger-ui:
+      path: /swagger-ui.html
+      enabled: true

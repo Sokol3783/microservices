@@ -1,0 +1,6 @@
+rootProject.name = 'microservices-cloud'
+
+// Подключаем твои сервисы как модули
+include 'delivery-service'
+include 'order-service'
+include 'payment-service'
