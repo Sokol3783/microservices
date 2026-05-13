@@ -10,6 +10,7 @@ import com.example.service1.order_service.entity.OrderStatus;
 import com.example.service1.order_service.integration.payments.client.feign.PaymentFeignClient;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class OrderService {
   public Order saveOrder(OrderDTO orderDTO) {
     var order = orderRepository.saveAndFlush(MapperUtil.mapToOrder(orderDTO));
     var payment = MapperUtil.mapToPaymentDTO(order);
-    var paymentResponse = paymentFeignClient.processPayment(payment);
+    var paymentResponse = paymentFeignClient.processPayment(payment, UUID.randomUUID());
     order.setStatus(OrderStatus.fromPaymentStatus(paymentResponse.status()));
     orderRepository.save(order);
     return order;

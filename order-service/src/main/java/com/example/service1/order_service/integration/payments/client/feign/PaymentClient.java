@@ -6,6 +6,7 @@ import com.example.service1.order_service.integration.payments.dto.payment.Payme
 import feign.FeignException;
 import java.nio.ByteBuffer;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatusCode;
@@ -19,9 +20,9 @@ public class PaymentClient implements PaymentFeignClient {
   private final PaymentFeignClient paymentClient;
   private final JsonMapper jsonMapper;
 
-  public PaymentResponse processPayment(PaymentRequestDTO paymentRequestDTO) {
+  public PaymentResponse processPayment(PaymentRequestDTO paymentRequestDTO, UUID idempotencyKey) {
     try{
-      return paymentClient.processPayment(paymentRequestDTO);
+      return paymentClient.processPayment(paymentRequestDTO,idempotencyKey);
     } catch (FeignException ex) {
       return processException(ex);
     }
