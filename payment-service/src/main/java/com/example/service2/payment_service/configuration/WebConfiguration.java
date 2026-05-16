@@ -1,6 +1,6 @@
-package com.example.service1.order_service.configuration;
+package com.example.service2.payment_service.configuration;
 
-import com.example.service1.order_service.interceptor.IdempotencyInterceptor;
+import com.example.service2.payment_service.interceptor.IdempotencyInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

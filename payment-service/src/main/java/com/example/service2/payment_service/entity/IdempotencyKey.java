@@ -1,4 +1,4 @@
-package com.example.service1.order_service.entity;
+package com.example.service2.payment_service.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,12 +29,11 @@ public class IdempotencyKey {
   @Lob
   private String responseData;
 
-  enum KeyStatus {
+  public enum KeyStatus {
     PENDING,
     COMPLETE
   }
 
-  @Enumerated(EnumType.STRING)
   @Column(name = "status_code", nullable = false)
   private int StatusKode;
 

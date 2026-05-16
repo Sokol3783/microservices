@@ -1,6 +1,6 @@
-package com.example.service1.order_service.dao;
+package com.example.service2.payment_service.dao;
 
-import com.example.service1.order_service.entity.IdempotencyKey;
+import com.example.service2.payment_service.entity.IdempotencyKey;
 import jakarta.persistence.LockModeType;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
