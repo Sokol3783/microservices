@@ -31,7 +31,7 @@ public class OrderService {
   public Order saveOrder(OrderDTO orderDTO) {
     var order = orderRepository.saveAndFlush(MapperUtil.mapToOrder(orderDTO));
     var payment = MapperUtil.mapToPaymentDTO(order);
-    var paymentResponse = paymentFeignClient.processPayment(payment);
+    var paymentResponse = paymentFeignClient.processPayment(payment, payment.orderNumber().toString());
     order.setStatus(OrderStatus.fromPaymentStatus(paymentResponse.status()));
     orderRepository.save(order);
     return order;

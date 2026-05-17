@@ -19,9 +19,9 @@ public class PaymentClient implements PaymentFeignClient {
   private final PaymentFeignClient paymentClient;
   private final JsonMapper jsonMapper;
 
-  public PaymentResponse processPayment(PaymentRequestDTO paymentRequestDTO) {
+  public PaymentResponse processPayment(PaymentRequestDTO paymentRequestDTO, String idempotencyKey) {
     try{
-      return paymentClient.processPayment(paymentRequestDTO);
+      return paymentClient.processPayment(paymentRequestDTO,idempotencyKey);
     } catch (FeignException ex) {
       return processException(ex);
     }
