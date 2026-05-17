@@ -5,6 +5,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 import com.example.service1.order_service.dto.OrderDTO;
 import com.example.service1.order_service.entity.Order;
 import com.example.service1.order_service.service.OrderService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
@@ -31,11 +32,13 @@ public class OrderController {
   private final OrderService orderService;
 
   @GetMapping
+  @CircuitBreaker(name = "readDeleteCircuitBreaker")
   public ResponseEntity<List<Order>>gatAllOrder(){
     return ResponseEntity.ok(orderService.findAll());
   }
 
   @PostMapping
+  @CircuitBreaker(name = "stateChangingCircuitBreaker")
   public ResponseEntity<Order> saveOrder(@RequestBody @Valid OrderDTO orderDTO) {
     var savedOrder = orderService.saveOrder(orderDTO);
     return ResponseEntity
@@ -44,11 +47,13 @@ public class OrderController {
   }
 
   @GetMapping("/{id}")
+  @CircuitBreaker(name = "readDeleteCircuitBreaker")
   public ResponseEntity<?> getOrder(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id) {
     return orderService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   @PutMapping("/{id}")
+  @CircuitBreaker(name = "stateChangingCircuitBreaker")
   public ResponseEntity<?> updateOrder(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id,
       @RequestBody @Valid OrderDTO orderDTO){
       return orderService.findById(id).map(
@@ -58,6 +63,7 @@ public class OrderController {
   }
 
   @DeleteMapping("/{id}")
+  @CircuitBreaker(name = "readDeleteCircuitBreaker")
   public ResponseEntity<?> deleteOrder(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id){
     return orderService.findById(id).map(presentOrder -> {
       orderService.deleteOrder(presentOrder);

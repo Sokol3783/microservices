@@ -5,6 +5,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 import com.example.service2.payment_service.dto.PaymentDTO;
 import com.example.service2.payment_service.entity.Payment;
 import com.example.service2.payment_service.service.PaymentService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
@@ -31,6 +32,7 @@ public class PaymentController {
   private final PaymentService paymentService;
 
   @GetMapping
+  @CircuitBreaker(name ="readDeleteCircuitBreaker")
   public ResponseEntity<List<Payment>>gatAllPayment(){
     return ResponseEntity.ok(paymentService.findAll());
   }
@@ -44,11 +46,13 @@ public class PaymentController {
   }
 
   @GetMapping("/{id}")
+  @CircuitBreaker(name ="readDeleteCircuitBreaker")
   public ResponseEntity<?> getPayment(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id) {
     return paymentService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   @PutMapping("/{id}")
+  @CircuitBreaker(name ="stateChangingCircuitBreaker")
   public ResponseEntity<?> updatePayment(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id,
       @RequestBody @Valid PaymentDTO PaymentDTO){
       return paymentService.findById(id).map(
@@ -58,6 +62,7 @@ public class PaymentController {
   }
 
   @DeleteMapping("/{id}")
+  @CircuitBreaker(name ="readDeleteCircuitBreaker")
   public ResponseEntity<?> deletePayment(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id){
     return paymentService.findById(id).map(presentPayment -> {
       paymentService.deletePayment(presentPayment);
