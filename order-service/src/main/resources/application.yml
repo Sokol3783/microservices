@@ -31,3 +31,44 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+resilience4j:
+  retry:
+    instances:
+      paymentClientRetry:
+        maxAttempts: 4
+        waitDuration: 1s
+        retryExceptions:
+          - feign.FeignException
+        ignoreExceptions:
+          - java.lang.RuntimeException
+  circuitbreaker:
+    instances:
+      paymentClientCircuitBreaker:
+        recordException:
+          - feign.FeignException
+        ignore:
+          - java.lang.RuntimeEcxeption
+        failureRateThreshold: 40
+        slidingWindowSize: 100
+        waitDurationInOpenState: 5s
+        permittedNumbersOfCallsInHalfOpenState: 10
+        minimumNumbersOfCalls: 10
+        registerHealthIndicator: true
+      readDeleteCircuitBreaker:
+        ignoreExceptions:
+          - java.lang.RuntimeException
+        slidingWindowSize: 20
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        slowCallRateThreshold: 60
+        slowCallDurationThreshold: 2000ms
+      stateChangingCircuitBreaker:
+        ignoreExceptions:
+          - java.lang.RuntimeException
+        slidingWindowSize: 10
+        failureRateThreshold: 75
+        waitDurationInOpenState: 15000
+        slowCallRateThreshold: 80
+        slowCallDurationThreshold: 5000ms
+
+

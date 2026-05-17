@@ -31,3 +31,21 @@ spring:
     swagger-ui:
       path: /swagger-ui.html
       enabled: true
+resilience4j:
+  circuitbreaker:
+    readDeleteCircuitBreaker:
+      ignoreExceptions:
+        - java.lang.RuntimeException
+      slidingWindowSize: 20
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+      slowCallRateThreshold: 60
+      slowCallDurationThreshold: 2000ms
+    stateChangingCircuitBreaker:
+      ignoreExceptions:
+        - java.lang.RuntimeException
+      slidingWindowSize: 10
+      failureRateThreshold: 75
+      waitDurationInOpenState: 15000
+      slowCallRateThreshold: 80
+      slowCallDurationThreshold: 5000ms

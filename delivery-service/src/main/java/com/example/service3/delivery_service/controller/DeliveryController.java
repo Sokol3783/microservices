@@ -5,6 +5,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 import com.example.service3.delivery_service.dto.DeliveryDTO;
 import com.example.service3.delivery_service.entity.Delivery;
 import com.example.service3.delivery_service.service.DeliveryService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
@@ -31,6 +32,7 @@ public class DeliveryController {
   private final DeliveryService DeliveryService;
 
   @GetMapping
+  @CircuitBreaker(name = "readDeleteCircuitBreaker")
   public ResponseEntity<List<Delivery>>gatAllDelivery(){
     return ResponseEntity.ok(DeliveryService.findAll());
   }
@@ -44,11 +46,14 @@ public class DeliveryController {
   }
 
   @GetMapping("/{id}")
+  @CircuitBreaker(name = "readDeleteCircuitBreaker")
+
   public ResponseEntity<?> getDelivery(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id) {
     return DeliveryService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   @PutMapping("/{id}")
+  @CircuitBreaker(name = "stateChangingCircuitBreaker")
   public ResponseEntity<?> updateDelivery(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id,
       @RequestBody @Valid DeliveryDTO DeliveryDTO){
       return DeliveryService.findById(id).map(
@@ -58,6 +63,7 @@ public class DeliveryController {
   }
 
   @DeleteMapping("/{id}")
+  @CircuitBreaker(name = "readDeleteCircuitBreaker")
   public ResponseEntity<?> deleteDelivery(@PathVariable("id") @Positive(message = "Min value have to be 1") Long id){
     return DeliveryService.findById(id).map(presentDelivery -> {
       DeliveryService.deleteDelivery(presentDelivery);
